@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1">
+<meta http-equiv = "Content-Type" content = "text/html; charset = utf-8" />
+<title>Jonas's Programms | TicTacToe</title>
+</head>
+<script type="text/javascript">
+/*
+By Jonas Krister Villamayor
+Made on: March 13, 2021 (12:30 PH Time);
+Finished on: March 13, 2021 (1:24 PH Time);
+*/
+//global variables
+var CanTouch = true;
+var gg = false;
+//user pushes the play buttom
+function plays() {
+  game.style.display = "block";
+
+  //always check for wins
+  int_p = setInterval("CheckWonP();",130);
+  int_a = setInterval("CheckWonA();",130);
+  int_t = setInterval("CheckTie();",130);
+}
+function CheckWonP() {
+  if (!gg) {
+    if (IsMine("col1") && IsMine("col2") && IsMine("col3")) {
+      alert("You Won!");//notify
+      gg = true;
+      ShowPopup("Congrats!");
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsMine("col1") && IsMine("col4") && IsMine("col7")) {
+      alert("You Won!");//notify
+      gg = true;
+      ShowPopup("Congrats!");
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsMine("col4") && IsMine("col5") && IsMine("col6")) {
+      alert("You Won!");//notify
+      gg = true;
+      ShowPopup("Congrats!");
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsMine("col7") && IsMine("col8") && IsMine("col9")) {
+      alert("You Won!");//notify
+      gg = true;
+      ShowPopup("Congrats!");
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsMine("col2") && IsMine("col5") && IsMine("col8")) {
+      alert("You Won!");//notify
+      gg = true;
+      ShowPopup("Congrats!");
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+  }
+}
+function CheckWonA() {
+  if (!gg) {
+    if (IsAI("col1") && IsAI("col2") && IsAI("col3")) {
+      alert("You Lost!");//notify
+      ShowPopup("GG!");
+      gg = true;
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsAI("col1") && IsAI("col4") && IsAI("col7")) {
+      alert("You Lost!");//notify
+      ShowPopup("GG!");
+      gg = true;
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsAI("col4") && IsAI("col5") && IsAI("col6")) {
+      alert("You Lost!");//notify
+      ShowPopup("GG!");
+      gg = true;
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsAI("col7") && IsAI("col8") && IsAI("col9")) {
+      alert("You Lost!");//notify
+      ShowPopup("GG!");
+      gg = true;
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+    else if (IsAI("col2") && IsAI("col5") && IsAI("col8")) {
+      alert("You Lost!");//notify
+      ShowPopup("GG!");
+      gg = true;
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+  }
+}
+function CheckTie() {
+  if (!gg) {
+    if (IsTaken("col1") && IsTaken("col2") && IsTaken("col3") && IsTaken("col4") && IsTaken("col5") && IsTaken("col6") && IsTaken("col7") && IsTaken("col8") && IsTaken("col9")) {
+      alert("Its a tie!");//notify
+      ShowPopup("Congrats to us");
+      gg = true;
+      setTimeout("location.reload();",5000);//reload to reset
+    }
+  }
+}
+//checks if columns is taken
+function IsTaken(id) {
+  if (document.getElementById(id).style.backgroundColor == "grey") {
+    return false;
+  } else {
+    return true;
+  }
+}
+//check if user owns the column
+function IsMine(id) {
+  if (document.getElementById(id).style.backgroundColor == "lime") {
+    return true;
+  } else {
+    return false;
+  }
+}
+//check if AI owns the column
+function IsAI() {
+  if (document.getElementById(id).style.backgroundColor == "red") {
+    return true;
+  } else {
+    return false;
+  }
+}
+//user clicks on a column
+function clicks(id) {
+  if (CanTouch) {
+    if (IsTaken(id)) {
+      ShowPopup("Already Taken!");
+    } else {
+      document.getElementById(id).style.backgroundColor = "lime";
+      CanTouch = false;
+      setTimeout("AIs_Turn();",2000);
+    }
+  } else {
+    ShowPopup("Please Wait");
+  }
+}
+
+//AI's turn to move
+function AIs_Turn() {
+  if (!gg) {
+    var num = Math.floor(Math.random()*9)+1;
+    if (IsTaken("col" + num)) {
+      AIs_Turn();
+    } else {
+      setTimeout('ShowPopup("Ill pick column ' + num + '");document.getElementById("col' + num + '").style.backgroundColor = "red";CanTouch = true;',130);
+    }
+  }
+}
+function ShowPopup(msg) {
+  document.getElementById("pop").style.display="block";
+  document.getElementById("pop_msg").innerHTML = msg;
+  setTimeout("document.getElementById('pop').style.display='none'",2000);
+}
+</script>
+<style type="text/css">
+.column {
+  width: 100px;
+  height: 100px;
+}
+#game {
+  display: none;
+}
+input[type="button"] {
+  color: rgb(0,150,255);
+  background-color: white;
+  border-radius: 20px;
+  border-color: rgb(0,150,255);
+  font-size: 20px;
+  margin-Top: 300px;
+}
+.theme {
+  color: rgb(0,150,255);
+}
+.theme_r {
+  background-image: linear-gradient(black,grey,black);
+  padding: 2px;
+  border-radius: 20px;
+  color: white;
+}
+#pop {
+  position: fixed;
+  display: none;
+}
+</style>
+<body>
+<center>
+<div id="pop">
+<b class="theme_r" id="pop_msg"></b>
+</div>
+<input type="button" value="Play" onClick="this.style.display='none';plays();">
+<div id="game">
+<h2 class="theme">You VS AI</h2>
+<table>
+<tr>
+<td>
+<div class="column" id="col1" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+<td>
+<div class="column" id="col2" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+<td>
+<div class="column" id="col3" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+</tr>
+<tr>
+<td>
+<div class="column" id="col4" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+<td>
+<div class="column" id="col5" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+<td>
+<div class="column" id="col6" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+</tr>
+<tr>
+<td>
+<div class="column" id="col7" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+<td>
+<div class="column" id="col8" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+<td>
+<div class="column" id="col9" style="background-color: grey" onClick="clicks(this.id);"></div>
+</td>
+</tr>
+</table>
+</div>
+</center>
+</body>
+</html>
